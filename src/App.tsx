@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import "./App.css";
 import * as Tone from "tone";
 
-let kick, kickLoop, snare, snareLoop;
+let kick, kickLoop, snare, snareLoop, hihat, hihatLoop;
 
 function App() {
   // const synth = new Tone.PolySynth(Tone.Synth).toDestination();
@@ -19,12 +19,19 @@ function App() {
       "/kick.wav"
     ).toDestination();
     snare = new Tone.Player("/snare.wav").toDestination();
+    hihat = new Tone.Player("/hihat.wav").toDestination();
+
     kickLoop = new Tone.Loop((time) => {
       kick.start(time);
     }, "4n");
     snareLoop = new Tone.Loop((time) => {
       snare.start(time);
     }, "2n");
+
+    hihatLoop = new Tone.Loop((time) => {
+      hihat.start(time + "16n");
+    }, "4n");
+
     // Tone.loaded().then(() => {
     // kick.start();
     // Tone.getTransport().start();
@@ -36,6 +43,7 @@ function App() {
     await Tone.start();
     kickLoop.start();
     snareLoop.start("4n");
+    hihatLoop.start("8n");
     Tone.getTransport().bpm.value = 128;
     Tone.getTransport().start();
   };
